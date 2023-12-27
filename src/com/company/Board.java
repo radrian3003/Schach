@@ -119,7 +119,7 @@ public class Board {
 
 
 
-    public  Move[] generateSlidingPieceMoves(int startPos, int FigurInt)
+    public Move[] generateSlidingPieceMoves(int startPos, int FigurInt)
     {
         ArrayList<Move> moves = new ArrayList<>();
         int absolutFigurInt = Math.abs(FigurInt);
@@ -149,6 +149,21 @@ public class Board {
                 {
                     moves.add(new Move(startPos,square));
                     System.out.println(square);
+                }
+                else
+                {
+                    int eigeneFarbe = FigurInt / Math.abs(FigurInt);
+                    int farbeAndereFigur = Square[square] / Math.abs(Square[square]);
+                    if(eigeneFarbe == farbeAndereFigur)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        moves.add(new Move(startPos,square));
+                        System.out.println(square);
+                        break;
+                    }
                 }
 
             }
