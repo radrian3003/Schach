@@ -1,5 +1,6 @@
 package com.company;
 
+//test kommentar
 public class Board {
     private int[] Square;
     private static final int leeresFeld = 0;
