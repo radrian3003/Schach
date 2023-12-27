@@ -1,12 +1,11 @@
 package com.company;
 
-import java.util.ArrayList;
-
+//test kommentar
 public class Board {
-     int[] Square;
+    private int[] Square;
     private static final int leeresFeld = 0;
      static int[][] distancesToEdge;
-    static final int[] directions = {-8, 8, // oben,unten
+    static final int[] richtungen = {8, -8, // unten,oben
             1, -1, // rechts, links
             7, -7,//unten links, oben rechts
             9, -9}; //unten rechts, oben links
@@ -14,8 +13,10 @@ public class Board {
     public Board()
     {
         Square = new int[64]; //brett als eindimensionales array (von oben links nach unten rechts) ist später praktisch
+        Square[0] = Figur.schwarz * Figur.king;
+        Square[63] = Figur.weis * Figur.king;
 
-        distancesToEdge = getDistanceToEdges();
+        distancesToEdge = initialiseDistanceToEdges();
     }
 
     /**
@@ -23,9 +24,8 @@ public class Board {
      * @param figurInt den wert einer Figur aus Farbe * FigurTyp
      * @return den Anfangsbuchstaben des Namen der Figur (klein wenn Figur == schwarz, gross wenn weiß)
      */
-    private  char figurIntToChar(int figurInt)
+    private char figurIntToChar(int figurInt)
     {
-
         int absolutFigurInt = Math.abs(figurInt);
         int farbe = figurInt / absolutFigurInt;
 
@@ -43,7 +43,7 @@ public class Board {
     /**
      * brett auf konsole
      */
-    public  void gebeBrettAus()
+    public void gebeBrettAus()
     {
         String zeileString = "";
         for(int i = 0; i< Square.length; i++)
@@ -72,7 +72,7 @@ public class Board {
      *
      * @return Array mit Abstand zum Rand von jedem Feld zum Rand in jeder Richtung in einem Array
      */
-    private  int[][] getDistanceToEdges()
+    private int[][] initialiseDistanceToEdges()
     {
         int[][] rdistancesToEdge = new int[64][8];
         for(int zeile = 0;zeile<8;zeile++)
@@ -84,8 +84,8 @@ public class Board {
 
                 oben = zeile;
                 unten = 7 - zeile;
-                rechts = 7 - spalte;
-                links = spalte;
+                rechts = spalte;
+                links = 7 - spalte;
 
                 untenlinks = Math.min(unten, links);
                 obenrechts = Math.min(oben,rechts);
@@ -105,52 +105,20 @@ public class Board {
      * @param figurInt den IntegerWert einer Figur auf dem Brett
      * @return die Moves die gehen würden, wenn keine anderen Figuren auf dem Feld wären
      */
-    public  Move[] generateMoves(int startPosition, int figurInt)
+    public static Move[] generateMoves(int startPosition, int figurInt)
     {
         int absolutFigurInt = Math.abs(figurInt);
         if(absolutFigurInt == Figur.queen || absolutFigurInt == Figur.rook || absolutFigurInt == Figur.bishop)
         {
-            return generateSlidingPieceMoves(startPosition,figurInt);
+            return generateSlidingPieceMoves(startPosition,absolutFigurInt);
         }
         return null;
     }
 
 
 
-    public  Move[] generateSlidingPieceMoves(int startPos, int FigurInt)
+    private static Move[] generateSlidingPieceMoves(int startPos, int absolutFigurInt)
     {
-        ArrayList<Move> moves = new ArrayList<>();
-        int absolutFigurInt = Math.abs(FigurInt);
-
-
-        int anfang = 0;
-        int ende = 8;
-        if(absolutFigurInt == Figur.rook) //nur oben,unten,rechts,links
-        {
-            ende = 4;
-        }
-        else if(absolutFigurInt == Figur.bishop) //nur schraeg
-        {
-            anfang = 4;
-        }
-
-
-        for(;anfang < ende;anfang++)
-        {
-            System.out.println("direction: "+directions[anfang]);
-            System.out.println("distance: "+distancesToEdge[startPos][anfang]);
-
-            for(int j = 1;j <= distancesToEdge[startPos][anfang];j++) // j=1 damit das Startfeld nicht mitreingenommen wird
-            {
-                int square = startPos + j * directions[anfang];//aktuellesFeld = Startfeld + Die Anzahl von Schritten in eine Richtung
-                if(Square[square] == leeresFeld) //TODO oder wenn ein Feind auf dem Feld ist
-                {
-                    moves.add(new Move(startPos,square));
-                    System.out.println(square);
-                }
-
-            }
-        }
-        return moves.toArray(new Move[0]);
+        return null;
     }
 }
