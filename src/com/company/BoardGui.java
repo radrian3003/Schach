@@ -46,10 +46,10 @@ public class BoardGui extends JFrame {
             for (int column = 0; column < numberOfSquares; column++) {
                 JLabel squareLabel = new JLabel(pieces[row][column], SwingConstants.CENTER);
                 squareLabel.setOpaque(true);
-                squareLabel.setBackground((row + column) % 2 == 0 ? Color.WHITE : Color.BLACK);
-                squareLabel.setForeground((row + column) % 2 == 0 ? Color.BLACK : Color.WHITE);
+                squareLabel.setBackground((row + column) % 2 == 0 ? Color.pink : Color.darkGray);
+                squareLabel.setForeground((row + column) % 2 == 0 ? Color.darkGray : Color.pink);
                 squareLabel.setPreferredSize(new Dimension(squareSize, squareSize));
-                squareLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                squareLabel.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 
                 // Add mouse listener for piece movement
                 int goalRow = row;
