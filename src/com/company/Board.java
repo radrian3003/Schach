@@ -97,4 +97,27 @@ public class Board {
         }
         return rdistancesToEdge;
     }
+
+    /**
+     *
+     * @param startPosition startPosition auf dem brett
+     * @param figurInt den IntegerWert einer Figur auf dem Brett
+     * @return die Moves die gehen würden, wenn keine anderen Figuren auf dem Feld wären
+     */
+    public static Move[] generateMoves(int startPosition, int figurInt)
+    {
+        int absolutFigurInt = Math.abs(figurInt);
+        if(absolutFigurInt == Figur.queen || absolutFigurInt == Figur.rook || absolutFigurInt == Figur.bishop)
+        {
+            return generateSlidingPieceMoves(startPosition,absolutFigurInt);
+        }
+        return null;
+    }
+
+
+
+    private static Move[] generateSlidingPieceMoves(int startPos, int absolutFigurInt)
+    {
+        return null;
+    }
 }

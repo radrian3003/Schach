@@ -15,28 +15,7 @@ public class Figur {
 
 
 
-    /**
-     *
-     * @param startPosition startPosition auf dem brett
-     * @param figurInt den IntegerWert einer Figur auf dem Brett
-     * @return die Moves die gehen würden, wenn keine anderen Figuren auf dem Feld wären
-     */
-    public static Move[] generateMoves(int startPosition, int figurInt)
-    {
-        int absolutFigurInt = Math.abs(figurInt);
-        if(absolutFigurInt == queen || absolutFigurInt == rook || absolutFigurInt == bishop)
-        {
 
-        }
-        return null;
-    }
-
-
-
-    private static Move[] generateSlidingPieceMoves(int startPos, int figurInt)
-    {
-        return null;
-    }
 
 
 
