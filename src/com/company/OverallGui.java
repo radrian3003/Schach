@@ -23,8 +23,7 @@ public class OverallGui extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // Add your code here for vs Bot functionality
-        System.out.println("vs Bot button clicked!");
+        BoardGui bg = new BoardGui();
     }
 
     public static void main(String[] args) {
