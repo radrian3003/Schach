@@ -188,13 +188,13 @@ public class Board {
                                             16 + 1, 16 - 1,  // 3 nach unten, 1 nach links/rechts
                                             -2 - 8, -2 + 8   // 3 nach links, 1 nach oben/unten
         };
-        int[][] necessaryDistancestoEdge =  new int[][]{{2,0,1,0, 0,0,0,0}, {2,0,0,1, 0,0,0,0}, // kann man bestimmt auch berechnen, hab aber keine Lust das zu machen und so geht das aufjedenfall schneller
-                                                        {1,0,2,0, 0,0,0,0}, {0,1,2,0, 0,0,0,0},
-                                                        {0,2,1,0, 0,0,0,0}, {0,2,0,1, 0,0,0,0},
-                                                        {1,0,0,2, 0,0,0,0 }, {0,1,0,2, 0,0,0,0}};
+        int[][] necessaryDistancestoEdge =  new int[][]{{2,0,1,0}, {2,0,0,1}, // kann man bestimmt auch berechnen, hab aber keine Lust das zu machen und so geht das aufjedenfall schneller
+                                                        {1,0,2,0}, {0,1,2,0},
+                                                        {0,2,1,0}, {0,2,0,1},
+                                                        {1,0,0,2}, {0,1,0,2}};
 
         outerloop: for (int i = 0; i < knightDirections.length ; i++) {
-            for (int j = 0; j < necessaryDistancestoEdge[i].length; j++) {
+            for (int j = 0; j < 4; j++) {
                 if(necessaryDistancestoEdge[i][j] > distancesToEdge[startPos][j]) // wenn in irgendeine Richtung nicht genuegend Platz ist
                 {
                     continue outerloop; // wird der Move geskippt
