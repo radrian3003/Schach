@@ -8,10 +8,10 @@ public class Board {
      int[] Square;
     private static final int leeresFeld = 0;
      static int[][] distancesToEdge;
-    static final int[] directions = {-8, 8, // oben,unten
-            1, -1, // rechts, links
-            7, -7,//unten links, oben rechts
-            9, -9}; //unten rechts, oben links
+    static final int[] directions = {-8, 8,
+            1, -1,
+            7, -7,
+            9, -9};
 
     public Board()
     {
@@ -110,7 +110,11 @@ public class Board {
     public  Move[] generateMoves(int startPosition, int figurInt)
     {
         int absolutFigurInt = Math.abs(figurInt);
-        if(absolutFigurInt == Figur.queen || absolutFigurInt == Figur.rook || absolutFigurInt == Figur.bishop)
+        if(absolutFigurInt == Figur.pawn)
+        {
+            return generatePawnMoves(startPosition,figurInt);
+        }
+        else if(absolutFigurInt == Figur.queen || absolutFigurInt == Figur.rook || absolutFigurInt == Figur.bishop)
         {
             return generateSlidingPieceMoves(startPosition,figurInt);
         }
@@ -214,6 +218,41 @@ public class Board {
 
 
         }
+        return moves.toArray(new Move[0]);
+    }
+
+    public Move[] generatePawnMoves(int startPos, int FigurInt)
+    {
+        ArrayList<Move> moves = new ArrayList<>();
+
+        int eigeneFarbe = FigurInt / Math.abs(FigurInt);
+        int bewegungsrichtung = -8 * eigeneFarbe; //Weiß geht von höheren Zahlen zu niedrigeren#
+
+
+        /*Dadurch dass Zuerst nach moves gesucht wird, bei denen Bauern andere schlagen (ist immer mindestens ein gleichwertiger Trade),
+        sind gute Moves am Anfang der Liste was z.B. bei Minimax mit Alpha-Beta-Pruning Sinn macht
+        */
+        int neuersquare = startPos+bewegungsrichtung+1;
+        if((0 <= neuersquare && neuersquare < 64) && Square[neuersquare] == eigeneFarbe*-1) // Ist vorne und 1 nach rechts ein Gegner
+        {
+            moves.add(new Move(startPos,neuersquare));
+            System.out.println(neuersquare);
+        }
+        neuersquare = startPos+bewegungsrichtung-1;
+        if((0 <= neuersquare && neuersquare < 64) && Square[neuersquare] == eigeneFarbe*-1) // Ist vorne und 1 nach links ein Gegner
+        {
+            moves.add(new Move(startPos,neuersquare));System.out.println(neuersquare);
+
+        }
+
+
+        neuersquare = startPos+bewegungsrichtung;
+        if((0 <= neuersquare && neuersquare < 64) && Square[neuersquare] == leeresFeld)
+        {
+            moves.add(new Move(startPos,neuersquare));System.out.println(neuersquare);
+
+        }
+
         return moves.toArray(new Move[0]);
     }
 }
