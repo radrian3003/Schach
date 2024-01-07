@@ -114,11 +114,19 @@ public class Board {
         {
             return generateSlidingPieceMoves(startPosition,figurInt);
         }
+        else if(absolutFigurInt == Figur.knight)
+        {
+            return generateKnightMoves(startPosition,figurInt);
+        }
         return null;
     }
 
-
-
+    /**
+     * generiert die möglichen Moves für Laeufer, Turm, Dame wenn
+     * @param startPos aktuelle Position der Figur und
+     * @param FigurInt Farbe + Art der Figur bekannt sind
+     * @return Array an allen möglichen Moves
+     */
     public Move[] generateSlidingPieceMoves(int startPos, int FigurInt)
     {
         ArrayList<Move> moves = new ArrayList<>();
@@ -139,34 +147,72 @@ public class Board {
 
         for(;anfang < ende;anfang++)
         {
-            System.out.println("direction: "+directions[anfang]);
-            System.out.println("distance: "+distancesToEdge[startPos][anfang]);
+
 
             for(int j = 1;j <= distancesToEdge[startPos][anfang];j++) // j=1 damit das Startfeld nicht mitreingenommen wird
             {
                 int square = startPos + j * directions[anfang];//aktuellesFeld = Startfeld + Die Anzahl von Schritten in eine Richtung
-                if(Square[square] == leeresFeld) //TODO oder wenn ein Feind auf dem Feld ist
+                if(Square[square] == leeresFeld)
                 {
                     moves.add(new Move(startPos,square));
-                    System.out.println(square);
+
                 }
                 else
                 {
                     int eigeneFarbe = FigurInt / Math.abs(FigurInt);
                     int farbeAndereFigur = Square[square] / Math.abs(Square[square]);
-                    if(eigeneFarbe == farbeAndereFigur)
+                    if(eigeneFarbe == farbeAndereFigur) // wenn eigene Farbe auf Feld
                     {
                         break;
                     }
-                    else
+                    else // wenn Gegner auf Feld
                     {
                         moves.add(new Move(startPos,square));
-                        System.out.println(square);
+
                         break;
                     }
                 }
 
             }
+        }
+        return moves.toArray(new Move[0]);
+    }
+
+    public Move[] generateKnightMoves(int startPos, int FigurInt)
+    {
+        int eigeneFarbe = FigurInt / Math.abs(FigurInt);
+        ArrayList<Move> moves = new ArrayList<>();
+
+        int[] knightDirections = new int[]{-16 + 1, -16 - 1, // 3 nach oben, 1 nach links/rechts
+                                            2 - 8, 2 + 8,    // 3 nach rechts, 1 nach oben/unten
+                                            16 + 1, 16 - 1,  // 3 nach unten, 1 nach links/rechts
+                                            -2 - 8, -2 + 8   // 3 nach links, 1 nach oben/unten
+        };
+        int[][] necessaryDistancestoEdge =  new int[][]{{2,0,1,0, 0,0,0,0}, {2,0,0,1, 0,0,0,0}, // kann man bestimmt auch berechnen, hab aber keine Lust das zu machen und so geht das aufjedenfall schneller
+                                                        {1,0,2,0, 0,0,0,0}, {0,1,2,0, 0,0,0,0},
+                                                        {0,2,1,0, 0,0,0,0}, {0,2,0,1, 0,0,0,0},
+                                                        {1,0,0,2, 0,0,0,0 }, {0,1,0,2, 0,0,0,0}};
+
+        outerloop: for (int i = 0; i < knightDirections.length ; i++) {
+            for (int j = 0; j < necessaryDistancestoEdge[i].length; j++) {
+                if(necessaryDistancestoEdge[i][j] > distancesToEdge[startPos][j]) // wenn in irgendeine Richtung nicht genuegend Platz ist
+                {
+                    continue outerloop; // wird der Move geskippt
+                }}
+
+                int neuersquare = startPos + knightDirections[i];
+
+                // wenn das neue Feld leer ist oder ein Feind drauf ist, ist der Move okay,
+                // wenn eine eigene Figur auf dem Feld ist, geht der Move nicht und muss dementsprechend auch nicht hinzugefuegt werden
+                if(Square[neuersquare] == leeresFeld || eigeneFarbe != Square[neuersquare] / Math.abs(Square[neuersquare]))
+                {
+                    moves.add(new Move(startPos,neuersquare));
+                    System.out.println(neuersquare);
+
+                }
+
+
+
         }
         return moves.toArray(new Move[0]);
     }
