@@ -1,1 +1,2 @@
-ToDO: Battle Pass einbauen
+ToDO: - Battle Pass einbauen
+      - AutoAim für Konsolenspieler nerfen
